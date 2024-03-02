@@ -10,6 +10,8 @@ So it may be possible to run from command line with:
 
 `mvn package -f pom.xml`
 
+`cd target` 
+
 `java -jar Quotely-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 Optional params can go at the end e.g.
