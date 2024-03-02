@@ -1,7 +1,8 @@
 package org.example;
 
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.http.HttpClient;
@@ -33,8 +34,10 @@ public class HTTPJsonRequestClient {
   private <T> Function<String, T> mapJsonResponseToType(Class<T> type) {
     return (String string) -> {
       try {
-        return new ObjectMapper()
+        return JsonMapper.builder()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)
+                .build()
                 .readValue(string, type);
       } catch (IOException e) {
         throw new UncheckedIOException(e);
